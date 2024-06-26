@@ -115,9 +115,10 @@ async function refreshToken() {
   return await response.json();
 }
 
-async function SpotifyLogin() {
+export async function SpotifyLogin() {
   await SpotifyRedirectAuthorization();
-}
+};
+
 async function getUserData() {
   const response = await fetch("https://api.spotify.com/v1/me", {
     method: 'GET',
@@ -143,17 +144,17 @@ async function getTopData(top_data_type, time_range) {
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/artists" element={<Artists />} />
-          <Route path="/tracks" element={<Tracks />} />
-          <Route path="*" element={<NoPage />} />
-        </Routes>
-      </div>
-    </Router>
+      <Router>
+        <div>
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/artists" element={<Artists />} />
+            <Route path="/tracks" element={<Tracks />} />
+            <Route path="*" element={<NoPage />} />
+          </Routes>
+        </div>
+      </Router>
   );
 }
 
