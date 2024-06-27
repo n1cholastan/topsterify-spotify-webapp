@@ -1,9 +1,19 @@
 import logo from '../assets/Logo.svg';
 import star from "../assets/star.svg";
-import { SpotifyLogin } from '../App';
+import { useSpotifyAuth } from '../useSpotifyAuth';
 
-function Home() {
-    return <LandingPage />;
+const Home = () => {
+  const { loggedIn } = useSpotifyAuth()
+  
+  return (
+    <div>
+      {loggedIn ? (
+        <LoggedInPage />
+      ) : (
+        <LandingPage />
+      )}
+    </div>
+  )
 };
 
 function LandingPage() {
@@ -26,7 +36,9 @@ function LandingPage() {
 }
 
 
-function LogInButton() {
+const LogInButton = () => {
+  const { SpotifyLogin } = useSpotifyAuth()
+  
   return (
       <div>
       <button onClick={SpotifyLogin} className="bg-green px-10 py-5 rounded-full text-black font-bold md:text-lg lg:text-xl xl:text-2xl w-fit hover:bg-black hover:text-white focus:animate-ping ">
