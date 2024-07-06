@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { SpotifyAuthProvider } from './useSpotifyAuth';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <SpotifyAuthProvider>
+      <App />
+    </SpotifyAuthProvider>  
   </React.StrictMode>
 );
 
