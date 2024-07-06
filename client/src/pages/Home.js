@@ -7,15 +7,23 @@ function Home() {
 };
 
 function LandingPage() {
-    return (
-      <div className="">
-        <img src={logo} className=""></img>
-        <h2 className="font-bold font-inter text-2xl">powered by spotify</h2>
-        <LogInButton className="" />
-        <img src={star} className="absolute -z-10"></img>
+  return (
+    <div>
+      <div className="h-screen w-screen bg-white flex align-middle justify-center">
+        <div className=" h-fit self-center z-20 w-1/3">
+          <img src={logo} className="w-fit"></img>
+          <div className="flex justify-between mr-10">
+            <h2 className="font-bold font-inter md:text-lg lg:text-xl xl:text-3xl">powered by spotify</h2>
+            <LogInButton className="" />
+          </div>
+        </div>
       </div>
-    )
-  }
+      <div>
+        <img src={star} className= "w-1/3 spin absolute left-60 top-52 z-10"></img>
+      </div>
+    </div>
+  )
+}
 
 function LogInButton() {
 return (
@@ -91,6 +99,10 @@ function NavButton({ linkto, buttontext }) {
       </div>
   )
 >>>>>>> Stashed changes
+}
+
+function LoggedInPage() {
+  return <h1>Logged In</h1>;
 }
 
 export default Home;

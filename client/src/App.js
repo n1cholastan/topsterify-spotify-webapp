@@ -196,9 +196,9 @@ export default App;
 function GetDataButton() {
   return (
     <div>
-      <button onClick={() => getTopData("artists", "long_term")} className="bg-green p-5 rounded-2xl text-white font-bold text-2xl w-1/4">
+      {/*<button onClick={() => getTopData("artists", "long_term")} className="bg-green p-5 rounded-2xl text-white font-bold text-2xl w-1/4">
         Get Data
-      </button>
+      </button>*/}
     </div>
   )
 }
