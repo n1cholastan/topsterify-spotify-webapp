@@ -8,7 +8,7 @@ import NavBar from '../components/NavBar';
 function Home() {
 
   return (
-    <div className="mx-7 h-screen flex flex-col">
+    <div className="mx-5 lg:mx-7 h-screen flex flex-col">
       <NavBar />
       <div className="justify-self-center mt-56 z-20">
         <WelcomeText />

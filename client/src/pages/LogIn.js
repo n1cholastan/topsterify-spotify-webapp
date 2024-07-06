@@ -8,7 +8,7 @@ export default function Login() {
         <div className="h-screen w-screen bg-white flex flex-col lg:justify-center justify-between pb-16">
           <div className="flex flex-col items-center flex-grow justify-center">
             <div className="h-fit self-center z-20 lg:1/4 xl:w-1/3">
-              <img src={logo} className="w-fit lg:py-2 px-10 lg:px-6"></img>
+              <img src={logo} alt="Topsterify Logo" className="w-fit lg:py-2 px-10 lg:px-6"></img>
               <div className="flex justify-between pl-10 lg:pl-6 md:mr-10">
                 <h2 className="font-bold font-inter text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl">powered by spotify</h2>
                 <div className="hidden md:block md:mt-2 lg:mt-0">
@@ -22,7 +22,7 @@ export default function Login() {
           </div>
         </div>
         <div>
-          <img src={star} className= "lg:w-1/3 spin absolute lg:left-60 lg:top-52 z-10 w-3/4 top-28 left-12 md:top-24 md:w-1/2"></img>
+          <img src={star} alt="" className= "lg:w-1/3 spin absolute lg:left-60 lg:top-52 z-10 w-3/4 top-28 left-12 md:top-24 md:w-1/2"></img>
         </div>
       </div>
     )

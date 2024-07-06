@@ -8,7 +8,7 @@ import ScrollToTopButton from "../components/ScrollToTopButton";
 
 function Artist() {    
     return (
-        <div className="bg-white mx-7 flex flex-col">
+        <div className="bg-white mx-5 lg:mx-7 flex flex-col">
             <NavBar />
             <SortingBar page="artists" />
             <ArtistsTray />
