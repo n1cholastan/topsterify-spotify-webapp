@@ -41,16 +41,18 @@ function NavBar() {
                 <ProfileCorner />
             </div>
         </div>
-        <div className='md:hidden mb-10 mt-2 flex-row flex justify-around'>
-                <SkinnyButton
-                    linkto="/artists"
-                    buttontext="top artists" 
-                />
-                <SkinnyButton
-                    linkto="/tracks"
-                    buttontext="top tracks" 
-                />
-        </div>
+        {location.pathname !== "/home" && (
+            <div className='md:hidden mb-10 mt-2 flex-row flex justify-around'>
+                    <SkinnyButton
+                        linkto="/artists"
+                        buttontext="top artists" 
+                    />
+                    <SkinnyButton
+                        linkto="/tracks"
+                        buttontext="top tracks" 
+                    />
+            </div>
+        )}
     </div>
     )
 };
