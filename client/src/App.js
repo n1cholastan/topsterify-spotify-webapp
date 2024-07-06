@@ -1,14 +1,23 @@
 import './App.css';
 import styles from "./index.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Artists from "./pages/Artists";
 import Tracks from "./pages/Tracks";
 import NoPage from './pages/NoPage';
+<<<<<<< Updated upstream
+=======
+import Login from './pages/LogIn';
+import ProtectedRoute from './components/ProtectedRoute';
+import { useEffect } from 'react';
+import { useSpotifyAuth } from './contexts/SpotifyAuth';
+import LoadingWheel from './components/LoadingWheel';
+>>>>>>> Stashed changes
 
 const CLIENT_ID = "abd29aebc1a94db989876e775b4c2f81";
 const REDIRECT_URL = "http://localhost:3000";
 
+<<<<<<< Updated upstream
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
 const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token"
 const SCOPE = "user-top-read user-read-email user-read-private"
@@ -18,6 +27,17 @@ const valid_token = {
   get refresh_token() {return localStorage.getItem("refresh_token") || null; },
   get expires_in() {return localStorage.getItem("refresh_in") || null; },
   get expires() {return localStorage.getItem("expires") || null;},
+=======
+function App() {
+  const { loggedIn, loading } = useSpotifyAuth();
+  if (loading) {
+    return (
+      <div className='h-screen w-screen bg-white flex align-middle items-center justify-center'>
+        <LoadingWheel />
+      </div>
+    )
+  }
+>>>>>>> Stashed changes
 
   save: function (response) {
     const { access_token, refresh_token, expires_in } = response;
@@ -146,6 +166,7 @@ function App() {
     <Router>
       <div>
         <Routes>
+<<<<<<< Updated upstream
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/artists" element={<Artists />} />
@@ -154,10 +175,22 @@ function App() {
         </Routes>
       </div>
     </Router>
+=======
+          <Route path="/" element={loggedIn ? <Navigate to="/home" /> : <Login />} />
+          <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/artists" element={<ProtectedRoute><Artists /></ProtectedRoute>} />
+          <Route path="/tracks" element={<ProtectedRoute><Tracks /></ProtectedRoute>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<NoPage />} />
+        </Routes>
+      </div>
+    </Router> 
+>>>>>>> Stashed changes
   );
 }
 
 export default App;
+<<<<<<< Updated upstream
 
 
 function GetDataButton() {
@@ -181,3 +214,5 @@ function ImageGrid() {
     </div>
   )
 }
+=======
+>>>>>>> Stashed changes

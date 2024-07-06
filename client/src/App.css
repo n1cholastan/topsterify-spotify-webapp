@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+<<<<<<< Updated upstream
+=======
+
+.spin {
+  animation: spin 20s linear infinite;
+}
+
+.spinfast {
+  animation: spin 2s linear infinite;
+}
+>>>>>>> Stashed changes
