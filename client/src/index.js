@@ -3,26 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-<<<<<<< Updated upstream
-=======
 import { SpotifyAuthProvider } from './contexts/SpotifyAuth';
 import { SortingProvider } from './contexts/SortingContext';
->>>>>>> Stashed changes
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-<<<<<<< Updated upstream
-    <App />
-=======
     <SpotifyAuthProvider>
       <SortingProvider>
         <App />
       </SortingProvider>
     </SpotifyAuthProvider>  
     
->>>>>>> Stashed changes
   </React.StrictMode>
 );
 
