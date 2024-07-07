@@ -16,12 +16,23 @@ function SortingBar({page}) {
 }
 
 function SortingButtons({ page }) {
-    const { activeSort, setActiveSort, setArtistsData, setTracksData, dataLoading, setDataLoading } = useSortingContext();
+    const { activeSort, setActiveSort, setArtistsData, setTracksData, setDataLoading, cache, setCache } = useSortingContext();
     const { getTopData } = useSpotifyAuth()
 
     const buttonClick = useCallback(async (index) => {
-        setDataLoading(true);
         setActiveSort(index);
+        const cacheKey = `${page}-${index}`;
+
+        if (cache[cacheKey]) {
+            if (page === "artists") {
+                setArtistsData(cache[cacheKey]);
+            } else if (page === "tracks") {
+                setTracksData(cache[cacheKey]);
+            };
+            return;
+        }
+
+        setDataLoading(true);
         const time_ranges = {
             1: "short_term",
             2: "medium_term",
@@ -33,13 +44,19 @@ function SortingButtons({ page }) {
         const data = await getTopData(top_data_type, time_range);
         console.log(data);
         console.log(data.items[0].external_urls.spotify);
+
+        setCache(prevCache => ({
+            ...prevCache,
+            [cacheKey]: data.items
+        }))
+
         if (page === "artists") {
             setArtistsData(data.items);
         } else if (page === "tracks") {
             setTracksData(data.items);
         }
         setDataLoading(false);
-    }, [getTopData, page, setActiveSort, setArtistsData, setTracksData, setDataLoading]);
+    }, [getTopData, page, setActiveSort, setArtistsData, setTracksData, setDataLoading, cache, setCache]);
 
     useEffect(() => {
         buttonClick(activeSort);
