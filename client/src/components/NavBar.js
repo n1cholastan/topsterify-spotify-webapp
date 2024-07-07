@@ -42,7 +42,7 @@ function NavBar() {
             </div>
         </div>
         {location.pathname !== "/home" && (
-            <div className='md:hidden mb-10 mt-2 flex-row flex justify-around'>
+            <div className='md:hidden mb-10 mt-5 sm:mt-2 flex-row flex justify-around'>
                     <SkinnyButton
                         linkto="/artists"
                         buttontext="top artists" 
@@ -68,12 +68,12 @@ function ProfileCorner() {
                 <button className="text-sm font-inter font-bold">options</button>
             </div>
           </div>
-          <div className="bg-green rounded-full md:bg-transparent md:block flex flex-row w-fit items-center px-2 py-2 self-center">
+          <div className="bg-green rounded-full md:bg-transparent md:block flex flex-row w-fit items-center px-2 py-2 self-center hover:bg-black group md:hover:bg-transparent transition-color duration-300 ease-in-out">
             <div className="md:hidden w-10 h-10 aspect-square overflow-hidden rounded-full group relative">
                 <img src={profile_pic} className="object-cover w-full h-full"></img>
                 
             </div>
-            <button onClick={SpotifyLogout} className="mx-2 lg:my-0 transition-colors duration-300 md:bg-green md:px-6 lg:px-10 lg:py-3 md:h-14 lg:h-16 rounded-full text-black font-bold md:text-lg lg:text-xl xl:text-2xl w-fit md:hover:bg-black md:hover:text-white focus:animate-ping ">
+            <button onClick={SpotifyLogout} className="mx-2 lg:my-0 transition-colors duration-300 md:bg-green md:px-6 lg:px-10 lg:py-3 md:h-14 lg:h-16 rounded-full text-black group-hover:text-white font-bold md:text-lg lg:text-xl xl:text-2xl w-fit md:hover:bg-black md:hover:text-white focus:animate-ping ">
                 log out
             </button>
           </div>

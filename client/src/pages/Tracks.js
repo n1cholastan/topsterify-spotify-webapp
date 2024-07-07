@@ -24,7 +24,7 @@ function TracksTray() {
     if (dataLoading) {
         return (
             <div className="flex justify-center ">
-                <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-t-3xl mt-8 h-screen flex justify-center">
+                <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-3xl my-8 h-screen flex justify-center">
                     <LoadingWheel />
                 </div>
             </div>
@@ -32,7 +32,7 @@ function TracksTray() {
 
     return (
         <div className="flex justify-center ">
-            <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-t-3xl mt-8">
+            <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-3xl my-8">
                 <TracksList />
             </div>
         </div>
@@ -64,7 +64,7 @@ function TracksList() {
 function TracksCard({ track_name, artist_name, album_cover, index, track_link }) {
     return (
         <div className="flex flex-row">
-            <h1 className="font-inter font-bold text-2xl sm:text-3xl text-white px-5 self-center min-w-20">{index}.</h1>
+            <h1 className="font-inter font-bold text-3xl text-white pl-10 pr-8 self-center min-w-20">{index}.</h1>
             <div className="relative w-1/4 h-1/4 self-center sm:h-auto sm:w-1/6 md:w-1/6 aspect-square group overflow-hidden rounded-lg">
                     <img 
                         src={album_cover}

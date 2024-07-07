@@ -27,7 +27,7 @@ function ArtistsTray() {
     if (dataLoading) {
         return (
             <div className="flex justify-center ">
-                <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-t-3xl mt-8 h-screen flex justify-center">
+                <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-3xl my-8 h-screen flex justify-center">
                     <LoadingWheel />
                 </div>
             </div>
@@ -35,7 +35,7 @@ function ArtistsTray() {
 
     return (
         <div className="flex justify-center ">
-            <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-t-3xl mt-8">
+            <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-3xl my-8">
                 <ArtistsGrid />
             </div>
         </div>
