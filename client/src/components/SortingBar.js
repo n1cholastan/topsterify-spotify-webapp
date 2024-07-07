@@ -1,6 +1,6 @@
 import { useSortingContext } from "../contexts/SortingContext";
 import { useSpotifyAuth } from "../contexts/SpotifyAuth";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 
 function SortingBar({page}) {
     return (
@@ -19,9 +19,8 @@ function SortingButtons({ page }) {
     const { activeSort, setActiveSort, setArtistsData, setTracksData, dataLoading, setDataLoading } = useSortingContext();
     const { getTopData } = useSpotifyAuth()
 
-
-    async function buttonClick(index) {
-        setDataLoading(true)
+    const buttonClick = useCallback(async (index) => {
+        setDataLoading(true);
         setActiveSort(index);
         const time_ranges = {
             1: "short_term",
@@ -32,15 +31,19 @@ function SortingButtons({ page }) {
         const top_data_type = page === "artists" ? "artists" : "tracks";
 
         const data = await getTopData(top_data_type, time_range);
-        console.log(data)
-        console.log(data.items[0].external_urls.spotify)
+        console.log(data);
+        console.log(data.items[0].external_urls.spotify);
         if (page === "artists") {
-            setArtistsData(data.items)
+            setArtistsData(data.items);
         } else if (page === "tracks") {
-            setTracksData(data.items)
+            setTracksData(data.items);
         }
-        setDataLoading(false)
-    }
+        setDataLoading(false);
+    }, [getTopData, page, setActiveSort, setArtistsData, setTracksData, setDataLoading]);
+
+    useEffect(() => {
+        buttonClick(activeSort);
+    }, [activeSort, buttonClick]);
 
 
     function buttonClasses(index) {
