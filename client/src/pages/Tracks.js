@@ -64,7 +64,7 @@ function TracksList() {
 function TracksCard({ track_name, artist_name, album_cover, index, track_link }) {
     return (
         <div className="flex flex-row">
-            <h1 className="font-inter font-bold text-3xl text-white pl-10 pr-8 self-center min-w-20">{index}.</h1>
+            <h1 className="font-inter font-bold text-3xl text-white pl-10 self-center min-w-24 xl:min-w-32">{index}.</h1>
             <div className="relative w-1/4 h-1/4 self-center sm:h-auto sm:w-1/6 md:w-1/6 aspect-square group overflow-hidden rounded-lg">
                     <img 
                         src={album_cover}
