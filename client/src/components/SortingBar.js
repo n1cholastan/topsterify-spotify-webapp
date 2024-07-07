@@ -4,11 +4,11 @@ import { useEffect } from "react";
 
 function SortingBar({page}) {
     return (
-        <div className="flex gap-5 max-w-screen justify-center">
-            <div className=" bg-black py-3 rounded-full w-1/6 flex justify-center">
-                <h1 className="text-white text-4xl font-inter font-bold self-center">top {page}</h1>
+        <div className="flex md:gap-5 max-w-screen justify-center">
+            <div className=" bg-black py-3 rounded-full md:w-1/5 lg:w-1/6 md:flex justify-center hidden">
+                <h1 className="text-white md:text-xl lg:text-2xl xl:text-3xl font-inter font-bold self-center">top {page}</h1>
             </div>
-            <div className=" bg-black py-3 px-3 rounded-full w-1/3">
+            <div className=" bg-black sm:py-3 sm:px-3 px-2 py-2 rounded-full w-full md:w-7/12 lg:w-1/2 xl:w-1/3 mx-5 md:mx-0 ">
                 <SortingButtons page={page}/>
             </div>
         </div>
@@ -44,7 +44,7 @@ function SortingButtons({ page }) {
 
 
     function buttonClasses(index) {
-        return `w-1/2 text-2xl font-inter font-bold rounded-full p-2 transition-colors duration-300 ${activeSort === index ? "bg-white text-black" : "bg-black text-white hover:bg-grey"}`;
+        return `w-1/2 text-base sm:text-xl md:text-xl lg:2xl font-inter font-bold rounded-full p-2 transition-colors duration-300 ${activeSort === index ? "bg-white text-black" : "bg-black text-white hover:bg-grey"}`;
     }
 
     return (

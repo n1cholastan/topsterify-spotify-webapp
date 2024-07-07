@@ -27,7 +27,7 @@ function ArtistsTray() {
     if (dataLoading) {
         return (
             <div className="flex justify-center ">
-                <div className="bg-black w-full lg:w-1/2 rounded-t-3xl mt-8 h-screen flex justify-center">
+                <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-t-3xl mt-8 h-screen flex justify-center">
                     <LoadingWheel />
                 </div>
             </div>
@@ -35,7 +35,7 @@ function ArtistsTray() {
 
     return (
         <div className="flex justify-center ">
-            <div className="bg-black w-full md:w-3/4 lg:w-1/2 rounded-t-3xl mt-8">
+            <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-t-3xl mt-8">
                 <ArtistsGrid />
             </div>
         </div>
@@ -77,8 +77,8 @@ function ArtistCard({ album_cover, artist_name, index, artist_link }) {
                 </div>
             </a>
             <div className="flex mt-2 md:mt-2">
-                <h4 className="font-inter font-bold text-white text-xs md:text-base lg:text-sm xl:text-base">{index}.</h4>
-                <h4 className="font-inter font-bold text-white text-xs md:text-base lg:text-sm xl:text-base ml-1">{artist_name}</h4>
+                <h4 className="font-inter font-bold text-white text-xs sm:text-sm md:text-base xl:text-base">{index}.</h4>
+                <h4 className="font-inter font-bold text-white text-xs sm:text-sm md:text-base xl:text-base ml-1">{artist_name}</h4>
             </div>
         </div>
     );
