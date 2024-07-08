@@ -22,6 +22,13 @@ const valid_token = {
     const now = new Date();
     const expiry = new Date(now.getTime() + (expires_in * 1000));
     localStorage.setItem("expires", expiry);
+  },
+
+  clearAccessToken: function () {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("expires_in");
+    localStorage.removeItem("expires");
   }
 };
 
@@ -32,7 +39,7 @@ export function SpotifyAuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   const effectRan = useRef(false);
-  const refreshInterval = useRef(null);
+  const isRefreshing = useRef(false);
   useEffect(() => {
     async function handleAuthorization() {
       const url_parameters = new URLSearchParams(window.location.search);
@@ -54,7 +61,7 @@ export function SpotifyAuthProvider({ children }) {
       if (valid_token.access_token) {
         await getUserData();
         setLoggedIn(true);
-        setUpTokenRefresh()
+        valid_token.clearAccessToken()
       }
       else {
         setLoggedIn(false);
@@ -68,13 +75,8 @@ export function SpotifyAuthProvider({ children }) {
       effectRan.current = true;
     }
 
-    return () => {
-      if (refreshInterval.current) {
-        clearInterval(refreshInterval.current)
-      }
-    }
-
-  }, [loading]);
+    return
+   }, [loading]);
 
   async function initiateSpotifyAuthorization() {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -106,7 +108,6 @@ export function SpotifyAuthProvider({ children }) {
 
   async function getToken(code) {
     const code_verifier = localStorage.getItem("code_verifier");
-    console.log("code_verifier:", code_verifier);
     const response = await fetch(TOKEN_ENDPOINT, {
       method: "POST",
       headers: {
@@ -126,6 +127,18 @@ export function SpotifyAuthProvider({ children }) {
   }
 
   async function refreshToken() {
+    if (isRefreshing.current) {
+      return new Promise((resolve) => {
+        const interval = setInterval(() => {
+          if (!isRefreshing.current){
+            clearInterval(interval);
+            resolve(valid_token.access_token);
+          }
+        }, 100);
+      });
+    }
+    isRefreshing.current = true;
+    console.log("Starting token refresh")
     const response = await fetch(TOKEN_ENDPOINT, {
       method: "POST",
       headers: {
@@ -137,10 +150,16 @@ export function SpotifyAuthProvider({ children }) {
         refresh_token: valid_token.refresh_token,
       }),
     });
-    const token = await response.json(); 
-    valid_token.save(token);
-    console.log("Token refreshed: ", token)
-    return token 
+    const token = await response.json();
+    if (response.ok) {
+      valid_token.save(token);
+      console.log("Token refreshed:", token);
+    } else {
+      console.log("Refresh failed");
+    }
+
+    isRefreshing.current = false;
+    return valid_token.access_token
   }
 
   async function getUserData() {
@@ -152,8 +171,6 @@ export function SpotifyAuthProvider({ children }) {
     });
 
     const returnedUserData = await response.json();
-    console.log(returnedUserData)
-    console.log(returnedUserData.images[0].url)
     setUserData(returnedUserData)
   }
 
@@ -166,6 +183,11 @@ export function SpotifyAuthProvider({ children }) {
     };
 
     const response = await fetch(`https://api.spotify.com/v1/me/top/${top_data_type}?time_range=${time_range}&limit=50`, data_parameters);
+    if (response.status === 401) {
+      console.log("Status = 401")
+      await refreshToken();
+      return getTopData(top_data_type, time_range)
+    }
     return await response.json();
   }
 
@@ -179,20 +201,6 @@ export function SpotifyAuthProvider({ children }) {
     setUserData(null)
     window.location.href = REDIRECT_URL; 
   }
-
-  function setUpTokenRefresh() {
-     const expires = new Date(valid_token.expires);
-     const now = new Date();
-     const timeout =  expires - now - 60000;
-     if (timeout > 0) {
-      refreshInterval.current = setTimeout(async () => {
-        await refreshToken();
-        setUpTokenRefresh();
-      }, timeout);} else {
-        refreshToken().then(setUpTokenRefresh);
-
-      }
-     }
 
   return (
     <SpotifyAuthContext.Provider value={{ loggedIn, initiateSpotifyAuthorization, userData, getTopData, SpotifyLogin, SpotifyLogout, loading, getUserData }}>

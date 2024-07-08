@@ -42,8 +42,6 @@ function SortingButtons({ page }) {
         const top_data_type = page === "artists" ? "artists" : "tracks";
 
         const data = await getTopData(top_data_type, time_range);
-        console.log(data);
-        console.log(data.items[0].external_urls.spotify);
 
         setCache(prevCache => ({
             ...prevCache,
