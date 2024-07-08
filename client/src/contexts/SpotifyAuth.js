@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useRef } from 'react';
 import LoadingWheel from '../components/LoadingWheel';
+import TimeOutModal from '../components/TImeOutModal';
 
 const CLIENT_ID = "abd29aebc1a94db989876e775b4c2f81";
 const REDIRECT_URL = "http://localhost:3000";
@@ -38,6 +39,7 @@ export function SpotifyAuthProvider({ children }) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const effectRan = useRef(false);
   const isRefreshing = useRef(false);
   useEffect(() => {
@@ -156,6 +158,7 @@ export function SpotifyAuthProvider({ children }) {
       console.log("Token refreshed:", token);
     } else {
       console.log("Refresh failed");
+      setIsModalOpen(true)
     }
 
     isRefreshing.current = false;
@@ -205,6 +208,7 @@ export function SpotifyAuthProvider({ children }) {
   return (
     <SpotifyAuthContext.Provider value={{ loggedIn, initiateSpotifyAuthorization, userData, getTopData, SpotifyLogin, SpotifyLogout, loading, getUserData }}>
       {loading ? <LoadingWheel /> : children}
+      <TimeOutModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </SpotifyAuthContext.Provider>
   );
 }
