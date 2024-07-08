@@ -44,6 +44,14 @@ function ArtistsTray() {
 
 function ArtistsGrid() {
     const { artistsData } = useSortingContext();
+
+    if (!artistsData) {
+        return (
+            <div className="flex justify-center items-center h-40 text-white">
+                <p>No artists available.</p>
+            </div>
+        )
+    }
     
     return (
         <div className="grid grid-cols-3 gap-1 md:gap-2 p-1 md:p-2 mt-2 md:mt-0">
