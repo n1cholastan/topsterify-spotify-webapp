@@ -30,9 +30,9 @@ const SpotifyAuthContext = createContext();
 export function SpotifyAuthProvider({ children }) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState([])
-  const effectRan = useRef(false)
-  const refreshInterval = useRef(null)
+  const [userData, setUserData] = useState([]);
+  const effectRan = useRef(false);
+  const refreshInterval = useRef(null);
   useEffect(() => {
     async function handleAuthorization() {
       const url_parameters = new URLSearchParams(window.location.search);
@@ -52,8 +52,8 @@ export function SpotifyAuthProvider({ children }) {
       }
 
       if (valid_token.access_token) {
+        await getUserData();
         setLoggedIn(true);
-        getUserData()
         setUpTokenRefresh()
       }
       else {
@@ -153,6 +153,7 @@ export function SpotifyAuthProvider({ children }) {
 
     const returnedUserData = await response.json();
     console.log(returnedUserData)
+    console.log(returnedUserData.images[0].url)
     setUserData(returnedUserData)
   }
 
