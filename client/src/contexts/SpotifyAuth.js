@@ -24,13 +24,6 @@ const valid_token = {
     const expiry = new Date(now.getTime() + (expires_in * 1000));
     localStorage.setItem("expires", expiry);
   },
-
-  clearAccessToken: function () {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    localStorage.removeItem("expires_in");
-    localStorage.removeItem("expires");
-  }
 };
 
 const SpotifyAuthContext = createContext();
@@ -63,7 +56,6 @@ export function SpotifyAuthProvider({ children }) {
       if (valid_token.access_token) {
         await getUserData();
         setLoggedIn(true);
-        valid_token.clearAccessToken()
       }
       else {
         setLoggedIn(false);
@@ -158,7 +150,8 @@ export function SpotifyAuthProvider({ children }) {
       console.log("Token refreshed:", token);
     } else {
       console.log("Refresh failed");
-      setIsModalOpen(true)
+      SpotifyLogout()
+      setIsModalOpen(true);
     }
 
     isRefreshing.current = false;
@@ -177,7 +170,7 @@ export function SpotifyAuthProvider({ children }) {
     setUserData(returnedUserData)
   }
 
-  async function getTopData(top_data_type, time_range) {
+  async function getTopData(top_data_type, time_range, retry = true) {
     const data_parameters = {
       method: "GET",
       headers: {
@@ -188,8 +181,12 @@ export function SpotifyAuthProvider({ children }) {
     const response = await fetch(`https://api.spotify.com/v1/me/top/${top_data_type}?time_range=${time_range}&limit=50`, data_parameters);
     if (response.status === 401) {
       console.log("Status = 401")
-      await refreshToken();
-      return getTopData(top_data_type, time_range)
+      if (retry) {
+        await refreshToken();
+        return getTopData(top_data_type, time_range, false);
+      } else {
+        console.log("Refresh failed")
+      }
     }
     return await response.json();
   }
@@ -201,8 +198,7 @@ export function SpotifyAuthProvider({ children }) {
   function SpotifyLogout() {
     localStorage.clear();
     setLoggedIn(false);
-    setUserData(null)
-    window.location.href = REDIRECT_URL; 
+    setUserData(null); 
   }
 
   return (
