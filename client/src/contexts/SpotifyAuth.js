@@ -2,8 +2,8 @@ import { createContext, useContext, useState, useEffect, useRef } from 'react';
 import LoadingWheel from '../components/LoadingWheel';
 import TimeOutModal from '../components/TImeOutModal';
 
-const CLIENT_ID = "abd29aebc1a94db989876e775b4c2f81";
-const REDIRECT_URL = "http://localhost:3000";
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
+const REDIRECT_URL = process.env.REACT_APP_REDIRECT_URL;
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
 const SCOPE = "user-top-read user-read-email user-read-private";
@@ -203,7 +203,13 @@ export function SpotifyAuthProvider({ children }) {
 
   return (
     <SpotifyAuthContext.Provider value={{ loggedIn, initiateSpotifyAuthorization, userData, getTopData, SpotifyLogin, SpotifyLogout, loading, getUserData }}>
-      {loading ? <LoadingWheel /> : children}
+      {loading ? (
+        <div className="flex items-center justify-center min-h-screen">
+          <LoadingWheel />
+        </div>
+      ) : (
+      children
+    )}
       <TimeOutModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </SpotifyAuthContext.Provider>
   );
