@@ -15,7 +15,8 @@ module.exports = {
       },
       fontFamily: {
         inter: ["Inter"]
-      }
+      },
+
     },
   },
   plugins: [],

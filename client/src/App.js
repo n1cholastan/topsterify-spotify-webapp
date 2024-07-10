@@ -7,12 +7,16 @@ import Tracks from "./pages/Tracks";
 import NoPage from './pages/NoPage';
 import Login from './pages/LogIn';
 import ProtectedRoute from './components/ProtectedRoute';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSpotifyAuth } from './contexts/SpotifyAuth';
 import LoadingWheel from './components/LoadingWheel';
+import Footer from './components/Footer';
+import AboutModal from './components/AboutModal';
 
 function App() {
+  console.log(process.env.REACT_APP_CLIENT_ID)
   const { loggedIn, loading } = useSpotifyAuth();
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   if (loading) {
     return (
       <div className='h-screen w-screen bg-white flex align-middle items-center justify-center'>
@@ -32,6 +36,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
+        <Footer onAboutClick={() => setIsAboutModalOpen(true)} />
+        <AboutModal isOpen={isAboutModalOpen} onClose={() => setIsAboutModalOpen(false)} />
       </div>
     </Router> 
   );

@@ -1,14 +1,16 @@
 import star from "../assets/star.svg"
+import black_star from "../assets/black_star.svg";
 
 function LoadingWheel() {
     return (
-        <div className="flex flex-col justify-center align-middle w-fit h-fit mt-10">
+        <div className="bg-green flex flex-col justify-center align-middle w-fit h-fit mt-10 rounded-full py-6 px-10">
             <img 
-            src={star} 
-            className= "w-1/3 spinfast self-center mb-5"
+            src={black_star} 
+            className= "w-1/2 spinfast self-center mt-5 mb-2"
             ></img>
-            <h2 className="w-fit text-2xl font-inter font-semibold text-green text-center self-center">loading</h2>
+            <h2 className="w-fit text-lg font-inter font-semibold text-black text-center self-center p-2">loading</h2>
         </div>
+        
     )
 }
 

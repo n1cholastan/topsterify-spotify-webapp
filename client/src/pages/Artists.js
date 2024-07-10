@@ -27,7 +27,7 @@ function ArtistsTray() {
     if (dataLoading) {
         return (
             <div className="flex justify-center ">
-                <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-3xl my-8 h-screen flex justify-center">
+                <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-3xl mt-8 pt-12 mb-12 h-screen flex justify-center">
                     <LoadingWheel />
                 </div>
             </div>
@@ -35,7 +35,7 @@ function ArtistsTray() {
 
     return (
         <div className="flex justify-center ">
-            <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-3xl my-8">
+            <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-3xl mt-8 mb-12">
                 <ArtistsGrid />
             </div>
         </div>
@@ -44,6 +44,14 @@ function ArtistsTray() {
 
 function ArtistsGrid() {
     const { artistsData } = useSortingContext();
+
+    if (!artistsData) {
+        return (
+            <div className="flex justify-center items-center h-40 text-white">
+                <p>No artists available.</p>
+            </div>
+        )
+    }
     
     return (
         <div className="grid grid-cols-3 gap-1 md:gap-2 p-1 md:p-2 mt-2 md:mt-0">

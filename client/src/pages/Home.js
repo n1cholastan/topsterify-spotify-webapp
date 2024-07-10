@@ -8,25 +8,28 @@ import NavBar from '../components/NavBar';
 
 function Home() {
   return (
-    <div className="mx-5 lg:mx-7 h-screen flex flex-col justify-between md:justify-start">
-      <NavBar />
-      <div className="flex-grow md:flex-grow-0 md:mt-56 flex flex-col items-center md:items-start justify-center">
-        <div className="z-20">
-          <WelcomeText />
+    <div>
+      <div className="bg-white mx-5 lg:mx-7 h-screen flex flex-col justify-between md:justify-start">
+        <NavBar />
+        <div className="flex-grow md:flex-grow-0 md:mt-56 flex flex-col items-center md:items-start justify-center">
+          <div className="z-20">
+            <WelcomeText />
+          </div>
         </div>
-      </div>
-      <div className="flex flex-col self-center md:self-start  sm:flex-row gap-5 sm:gap-10 mb-20 md:mt-5 md:mb-0 justify-center md:justify-start">
-        <NavButton
-          linkto="/artists"
-          buttontext="top artists" 
-        />
-        <NavButton
-          linkto="/tracks"
-          buttontext="top tracks" 
-        />
-      </div>
-      <div>
-        <img src={star} className="hidden md:block md:w-5/12 lg:w-1/3 spin md:absolute md:right-24 lg:right-60 md:top-64 lg:top-52 z-10"></img>
+        <div className="flex flex-col self-center md:self-start  sm:flex-row gap-5 sm:gap-10 mb-20 md:mt-5 md:mb-0 justify-center md:justify-start">
+          <NavButton
+            linkto="/artists"
+            buttontext="top artists" 
+          />
+          <NavButton
+            linkto="/tracks"
+            buttontext="top tracks" 
+          />
+        </div>
+    
+        <div>
+          <img src={star} className="hidden md:block md:w-5/12 lg:w-1/3 spin md:absolute md:right-24 lg:right-60 md:top-64 lg:top-52 z-10"></img>
+        </div>
       </div>
     </div>
   );

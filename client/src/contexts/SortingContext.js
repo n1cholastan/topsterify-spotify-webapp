@@ -8,12 +8,13 @@ export function useSortingContext() {
 
 export function SortingProvider({ children }) {
     const [activeSort, setActiveSort] = useState(1);
-    const [artistsData, setArtistsData] = useState([])
-    const [tracksData, setTracksData] = useState([])
+    const [artistsData, setArtistsData] = useState([]);
+    const [tracksData, setTracksData] = useState([]);
     const [dataLoading, setDataLoading] = useState(true);
+    const [cache, setCache] = useState({});
 
     return (
-        <SortingContext.Provider value={{ activeSort, setActiveSort, artistsData, tracksData, setArtistsData, setTracksData, dataLoading, setDataLoading}}>
+        <SortingContext.Provider value={{ activeSort, setActiveSort, artistsData, tracksData, setArtistsData, setTracksData, dataLoading, setDataLoading, cache, setCache}}>
             {children}
         </SortingContext.Provider>
     );
