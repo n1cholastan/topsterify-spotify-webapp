@@ -8,7 +8,7 @@ import ScrollToTopButton from "../components/ScrollToTopButton";
 
 function Track() {
     return (
-        <div className="bg-white md:mx-5 h-screen lg:mx-7 flex flex-col">
+        <div className="bg-white md:mx-5 min-h-screen lg:mx-7 flex flex-col">
             <div className="mx-5 md:mx-0">
                 <NavBar />
             </div>

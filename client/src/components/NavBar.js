@@ -53,11 +53,8 @@ function ProfileCorner() {
 
     return (
         <div className="min-w-1/2 md:min-w-fit flex flex-row justify-around md:gap-1 lg:gap-3">
-          <div className="hidden md:block md:w-14 md:h-14 lg:w-16 lg:h-16 overflow-hidden rounded-full group relative self-center">
-            <img src={userData.images[0].url} className="object-cover w-full h-full group-hover:brightness-50"></img>
-            <div className="absolute inset-0 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <button className="text-sm font-inter font-bold">options</button>
-            </div>
+          <div className="hidden md:block md:w-14 md:h-14 lg:w-16 lg:h-16 overflow-hidden rounded-full self-center">
+            <img src={userData.images[0].url} className="object-cover w-full h-full "></img>
           </div>
           <div className="bg-green rounded-full md:bg-transparent md:block flex flex-row w-fit items-center px-2 py-2 self-center hover:bg-black group md:hover:bg-transparent transition-color duration-300 ease-in-out">
             <div className="md:hidden w-10 h-10 aspect-square overflow-hidden rounded-full group relative">
