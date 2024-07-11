@@ -7,7 +7,7 @@ const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
 const SCOPE = "user-top-read user-read-email user-read-private";
 
-const valid_token = {
+const validToken = {
   get access_token() { return localStorage.getItem("access_token") || null; },
   get refresh_token() { return localStorage.getItem("refresh_token") || null; },
   get expires_in() { return localStorage.getItem("expires_in") || null; },
@@ -25,6 +25,7 @@ const valid_token = {
   },
 };
 
+
 const SpotifyAuthContext = createContext();
 
 export function SpotifyAuthProvider({ children }) {
@@ -36,23 +37,23 @@ export function SpotifyAuthProvider({ children }) {
   const isRefreshing = useRef(false);
   useEffect(() => {
     async function handleAuthorization() {
-      const url_parameters = new URLSearchParams(window.location.search);
-      const code = url_parameters.get("code");
+      const urlParameters = new URLSearchParams(window.location.search);
+      const code = urlParameters.get("code");
       if (code) {
         try {
           const token = await getToken(code);
-          valid_token.save(token);
+          validToken.save(token);
 
           const url = new URL(window.location.href);
           url.searchParams.delete("code");
-          const updated_url = url.search ? url.href : url.href.replace("?", "");
-          window.history.replaceState({}, document.title, updated_url);
+          const updatedUrl = url.search ? url.href : url.href.replace("?", "");
+          window.history.replaceState({}, document.title, updatedUrl);
         } catch (error) {
           console.error("Error getting token:", error);
         }
       }
 
-      if (valid_token.access_token) {
+      if (validToken.access_token) {
         await getUserData();
         setLoggedIn(true);
       }
@@ -72,31 +73,35 @@ export function SpotifyAuthProvider({ children }) {
    }, [loading]);
 
   async function initiateSpotifyAuthorization() {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const random_values = crypto.getRandomValues(new Uint8Array(64));
-    const random_string = random_values.reduce((acc, x) => acc + characters[x % characters.length], "");
-
-    const code_verifier = random_string;
-    const data = new TextEncoder().encode(code_verifier);
-    const hashed = await crypto.subtle.digest('SHA-256', data);
-    const code_challenge_base64 = btoa(String.fromCharCode(...new Uint8Array(hashed)))
-      .replace(/=/g, '')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_');
+    const code_verifier = generateCodeVerifier();
     window.localStorage.setItem('code_verifier', code_verifier);
 
-    const auth_url = new URL(AUTH_ENDPOINT);
-    const parameters = {
+    const authUrl = new URL(AUTH_ENDPOINT);
+    authUrl.search = new URLSearchParams({
       response_type: "code",
       client_id: CLIENT_ID,
       scope: SCOPE,
       code_challenge_method: "S256",
-      code_challenge: code_challenge_base64,
+      code_challenge: await generateCodeChallenge(code_verifier),
       redirect_uri: REDIRECT_URL,
-    };
+    }).toString();
 
-    auth_url.search = new URLSearchParams(parameters).toString();
-    window.location.href = auth_url.toString();
+    window.location.href = authUrl.toString();
+  }
+
+  function generateCodeVerifier() {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const randomValues = crypto.getRandomValues(new Uint8Array(64));
+    return Array.from(randomValues, x => characters[x % characters.length]).join("");
+  }
+
+  async function generateCodeChallenge(code_verifier) {
+    const data = new TextEncoder().encode(code_verifier);
+    const hashed = await crypto.subtle.digest('SHA-256', data);
+    return btoa(String.fromCharCode(...new Uint8Array(hashed)))
+      .replace(/=/g, '')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_');
   }
 
   async function getToken(code) {
@@ -114,9 +119,9 @@ export function SpotifyAuthProvider({ children }) {
         code_verifier: code_verifier,
       }),
     });
-    const token = await response.json();
-    console.log("Token response:", token);
-    return token;
+    if (!response.ok) throw new Error("Failed to get token");
+
+    return response.json()
   }
 
   async function refreshToken() {
@@ -125,69 +130,74 @@ export function SpotifyAuthProvider({ children }) {
         const interval = setInterval(() => {
           if (!isRefreshing.current){
             clearInterval(interval);
-            resolve(valid_token.access_token);
+            resolve(validToken.access_token);
           }
         }, 100);
       });
     }
+
     isRefreshing.current = true;
-    console.log("Starting token refresh")
-    const response = await fetch(TOKEN_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        client_id: CLIENT_ID,
-        grant_type: "refresh_token",
-        refresh_token: valid_token.refresh_token,
-      }),
-    });
-    const token = await response.json();
-    if (response.ok) {
-      valid_token.save(token);
+    try {
+      const response = await fetch(TOKEN_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          client_id: CLIENT_ID,
+          grant_type: "refresh_token",
+          refresh_token: validToken.refresh_token,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to refresh token");
+
+      const token = await response.json();
+      validToken.save(token);
       console.log("Token refreshed:", token);
-    } else {
-      console.log("Refresh failed");
-      SpotifyLogout()
+    } catch (error) {
+      console.error("Refresh failed:", error);
+      SpotifyLogout();
       setIsModalOpen(true);
+    } finally {
+      isRefreshing.current = false;
     }
 
-    isRefreshing.current = false;
-    return valid_token.access_token
+    return validToken.access_token;
   }
 
   async function getUserData() {
     const response = await fetch("https://api.spotify.com/v1/me", {
       method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + valid_token.access_token 
-      },
+      headers: { 'Authorization': `Bearer ${validToken.access_token}` },
     });
 
-    const returnedUserData = await response.json();
-    setUserData(returnedUserData)
+    if (!response.ok) throw new Error("Failed to fetch user data");
+
+    setUserData(await response.json());
   }
 
-  async function getTopData(top_data_type, time_range, retry = true) {
-    const data_parameters = {
-      method: "GET",
-      headers: {
-        "Authorization": "Bearer " + valid_token.access_token 
-      },
-    };
+  async function getTopData(topDataType, timeRange, retry = true) {
+    try {
+      const response = await fetch(`https://api.spotify.com/v1/me/top/${topDataType}?time_range=${timeRange}&limit=50`, {
+        method: "GET",
+        headers: { "Authorization": `Bearer ${validToken.access_token}` },
+      });
 
-    const response = await fetch(`https://api.spotify.com/v1/me/top/${top_data_type}?time_range=${time_range}&limit=50`, data_parameters);
-    if (response.status === 401) {
-      console.log("Status = 401")
-      if (retry) {
-        await refreshToken();
-        return getTopData(top_data_type, time_range, false);
-      } else {
-        console.log("Refresh failed")
+      if (response.status === 401) {
+        if (retry) {
+          await refreshToken();
+          return getTopData(topDataType, timeRange, false);
+        } else {
+          throw new Error("Failed to refresh token and retry");
+        }
       }
+
+      if (!response.ok) throw new Error("Failed to fetch top data");
+
+      return response.json();
+    } catch (error) {
+      console.error("Error fetching top data:", error);
+      throw error;
     }
-    return await response.json();
   }
 
   async function SpotifyLogin() {
@@ -201,7 +211,18 @@ export function SpotifyAuthProvider({ children }) {
   }
 
   return (
-    <SpotifyAuthContext.Provider value={{ loggedIn, initiateSpotifyAuthorization, userData, getTopData, SpotifyLogin, SpotifyLogout, loading, getUserData }}>
+    <SpotifyAuthContext.Provider
+      value={{
+        loggedIn,
+        initiateSpotifyAuthorization,
+        userData,
+        getTopData,
+        SpotifyLogin,
+        SpotifyLogout,
+        loading,
+        getUserData
+      }}
+    >
       {children}
       <TimeOutModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </SpotifyAuthContext.Provider>
