@@ -2,7 +2,7 @@ import logo from '../assets/Logo.svg';
 function Footer({ onAboutClick, onPPClick, onToSClick }) {
     return (
      <div className="bg-green w-screen text-black py-4 rounded-t-3xl flex flex-col items-center">
-        <div className="w-2/12 mb-5">
+        <div className="w-2/12 mt-5">
             <p className="font-inter font-bold max-w-fit m-auto">&copy; {new Date().getFullYear()}</p>
             <img src={logo} className=""></img>
         </div>
