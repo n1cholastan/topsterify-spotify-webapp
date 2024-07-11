@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useEffect, useRef } from 'react';
-import TimeOutModal from '../components/TimeOutModal';
+import { createContext, useContext, useState, useEffect, useRef } from "react";
+import TimeOutModal from "../components/TimeOutModal";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 const REDIRECT_URL = process.env.REACT_APP_REDIRECT_URL;
@@ -74,7 +74,7 @@ export function SpotifyAuthProvider({ children }) {
 
   async function initiateSpotifyAuthorization() {
     const code_verifier = generateCodeVerifier();
-    window.localStorage.setItem('code_verifier', code_verifier);
+    window.localStorage.setItem("code_verifier", code_verifier);
 
     const authUrl = new URL(AUTH_ENDPOINT);
     authUrl.search = new URLSearchParams({
@@ -97,11 +97,11 @@ export function SpotifyAuthProvider({ children }) {
 
   async function generateCodeChallenge(code_verifier) {
     const data = new TextEncoder().encode(code_verifier);
-    const hashed = await crypto.subtle.digest('SHA-256', data);
+    const hashed = await crypto.subtle.digest("SHA-256", data);
     return btoa(String.fromCharCode(...new Uint8Array(hashed)))
-      .replace(/=/g, '')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_');
+      .replace(/=/g, "")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_");
   }
 
   async function getToken(code) {
@@ -166,8 +166,8 @@ export function SpotifyAuthProvider({ children }) {
 
   async function getUserData() {
     const response = await fetch("https://api.spotify.com/v1/me", {
-      method: 'GET',
-      headers: { 'Authorization': `Bearer ${validToken.access_token}` },
+      method: "GET",
+      headers: { "Authorization": `Bearer ${validToken.access_token}` },
     });
 
     if (!response.ok) throw new Error("Failed to fetch user data");

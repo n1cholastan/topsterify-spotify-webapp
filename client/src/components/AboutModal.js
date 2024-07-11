@@ -13,7 +13,7 @@ export default function AboutModal({ isOpen, onClose }) {
           About Topsterify
         </h2>
         <p className="text-sm md:text-xl mb-4 text-black font-inter font-semibold">
-          Topsterify is a website that visualizes your listening habits using the Spotify Web API, developed solely by the music obsessive{' '}
+          Topsterify is a website that visualizes your listening habits using the Spotify Web API, developed solely by the music obsessive{" "}
           <a
             href="http://n1cholastan.github.io"
             className="underline hover:text-green"
@@ -25,20 +25,20 @@ export default function AboutModal({ isOpen, onClose }) {
           Topsterify aims to make your music data easy to understand and enjoyable to explore, showcasing your top tracks and artists from three distinct time periods: the past 4 weeks, 6 months, and 12 months.
         </p>
         <p className="text-sm md:text-xl mb-4 text-black font-inter font-semibold">
-          The listening data is taken straight from the Spotify web API. For the curious, Topsterify uses the{' '}
+          The listening data is taken straight from the Spotify web API. For the curious, Topsterify uses the{" "}
           <span className="font-bold">‘user-top-read user-read-email user-read-private’</span> scopes.
         </p>
         <p className="text-sm md:text-xl mb-4 text-black font-inter font-semibold">
           I plan on implementing new features like pie charts to visualize your favorite genres and tools to track changes in your most listened tracks and artists over time.
         </p>
         <p className="text-sm md:text-xl mb-4 text-black font-inter font-semibold">
-          The repository for Topsterify is located{' '}
+          The repository for Topsterify is located{" "}
           <a
             href="https://github.com/n1cholastan/topsterify-spotify-webapp"
             className="underline hover:text-green"
           >
             here
-          </a>, if you have any questions or requests, please{' '}
+          </a>, if you have any questions or requests, please{" "}
           <a
             href="http://n1cholastan.github.io#contact"
             className="underline hover:text-green"

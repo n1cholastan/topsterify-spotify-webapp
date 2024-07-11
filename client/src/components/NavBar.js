@@ -1,7 +1,7 @@
-import logo from '../assets/Logo.svg';
+import logo from "../assets/Logo.svg";
 import placeholder_pic from "../assets/ph_icon.png";
-import { useSpotifyAuth } from '../contexts/SpotifyAuth';
-import { NavLink, useLocation } from 'react-router-dom';
+import { useSpotifyAuth } from "../contexts/SpotifyAuth";
+import { NavLink, useLocation } from "react-router-dom";
 
 function NavBar() {
     const location = useLocation();

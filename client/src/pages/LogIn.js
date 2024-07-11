@@ -1,5 +1,5 @@
 import { useSpotifyAuth } from "../contexts/SpotifyAuth";
-import logo from '../assets/Logo.svg';
+import logo from "../assets/Logo.svg";
 import star from "../assets/star.svg";
 
 export default function Login() {

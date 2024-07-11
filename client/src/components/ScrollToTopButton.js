@@ -25,7 +25,7 @@ function ScrollToTopButton() {
     <button
       onClick={scrollToTop}
       className={`fixed bottom-5 right-8 px-8 py-3 rounded-full bg-green text-black font-inter font-extrabold text-3xl transition-all ease-in-out duration-300 ${
-        isVisible ? 'opacity-100' : 'opacity-0'
+        isVisible ? "opacity-100" : "opacity-0"
       } hover:bg-black hover:text-white`}
       aria-label="Scroll to top"
     >

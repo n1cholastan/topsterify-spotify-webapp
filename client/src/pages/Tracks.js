@@ -87,7 +87,7 @@ function TracksList() {
             py-7
         ">
             {tracksData.map((track, i) => {
-                const artistNames = track.artists.map(artist => artist.name).join(', ');
+                const artistNames = track.artists.map(artist => artist.name).join(", ");
 
                 return (
                     <TracksCard

@@ -1,8 +1,8 @@
 import star from "../assets/star.svg";
 import black_star from "../assets/black_star.svg";
-import { useSpotifyAuth } from '../contexts/SpotifyAuth';
-import { NavLink } from 'react-router-dom';
-import NavBar from '../components/NavBar';
+import { useSpotifyAuth } from "../contexts/SpotifyAuth";
+import { NavLink } from "react-router-dom";
+import NavBar from "../components/NavBar";
 
 function Home() {
   return (
