@@ -1,16 +1,17 @@
 import logo from '../assets/Logo.svg';
-function Footer({ onAboutClick }) {
+function Footer({ onAboutClick, onPPClick, onToSClick }) {
     return (
      <div className="bg-green w-screen text-black py-4 rounded-t-3xl flex flex-col items-center">
-      <div className="flex my-3 sm:gap-6 justify-center items-center w-screen">
-        <FooterButton onClick={onAboutClick} buttontext="about"/>
-        <FooterButton buttontext="privacy policy"/>
-        <FooterButton buttontext="terms of service"/>
-      </div>
-      <div className="w-2/12 mb-5">
+        <div className="w-2/12 mb-5">
             <p className="font-inter font-bold max-w-fit m-auto">&copy; {new Date().getFullYear()}</p>
             <img src={logo} className=""></img>
         </div>
+      <div className="flex my-3 sm:gap-6 justify-center items-center w-screen">
+        <FooterButton onClick={onAboutClick} buttontext="about"/>
+        <FooterButton onClick={onToSClick} buttontext="terms of service"/>
+        <FooterButton onClick={onPPClick} buttontext="privacy policy"/>
+      </div>
+      
     </div>
     )
 }

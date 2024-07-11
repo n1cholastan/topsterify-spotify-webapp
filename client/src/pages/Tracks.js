@@ -24,7 +24,7 @@ function TracksTray() {
     if (dataLoading) {
         return (
             <div className="flex justify-center ">
-                <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-3xl my-8 h-screen flex justify-center">
+                <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-3xl mt-8 mb-12 h-screen flex justify-center">
                     <LoadingWheel />
                 </div>
             </div>
@@ -32,7 +32,7 @@ function TracksTray() {
 
     return (
         <div className="flex justify-center ">
-            <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-3xl my-8">
+            <div className="bg-black w-full md:w-9/12 lg:w-2/3 xl:w-1/2 rounded-3xl mt-8 mb-12">
                 <TracksList />
             </div>
         </div>
@@ -65,13 +65,19 @@ function TracksCard({ track_name, artist_name, album_cover, index, track_link })
     return (
         <div className="flex flex-row">
             <h1 className="font-inter font-bold text-3xl text-white pl-10 self-center min-w-24 xl:min-w-32">{index}.</h1>
-            <div className="relative w-1/4 h-1/4 self-center sm:h-auto sm:w-1/6 md:w-1/6 aspect-square group overflow-hidden rounded-lg">
+            <a href={track_link} className="block w-1/4 h-1/4 self-center sm:h-auto sm:w-1/6 md:w-1/6">
+                <div className="relative w-full h-full aspect-square group overflow-hidden rounded-lg">
                     <img 
-                        src={album_cover}
-                        alt={`Album cover of ${track_name} by ${artist_name}`} 
-                        className="w-full h-full object-cover"
+                    src={album_cover}
+                    alt={`Album cover of ${track_name} by ${artist_name}`} 
+                    className="w-full h-full object-cover"
                     />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+                    <p className="p-10 text-white text-xs md:text-sm font-bold">play on Spotify</p>
+                    </div>
                 </div>
+            </a>
+
             <div className="flex flex-col sm:flex-row justify-between self-center w-full px-5">
                 <div className="w-fit sm:w-1/2 sm:self-center">
                     <h2 className="font-inter font-semibold text-sm sm:text-base md:text-sm lg:text-base xl:text-sm 2xl:text-base text-white">{track_name}</h2>

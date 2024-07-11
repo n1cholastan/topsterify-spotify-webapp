@@ -12,11 +12,14 @@ import { useSpotifyAuth } from './contexts/SpotifyAuth';
 import LoadingWheel from './components/LoadingWheel';
 import Footer from './components/Footer';
 import AboutModal from './components/AboutModal';
+import PPModal from './components/PPModal';
+import ToSModal from './components/ToSModal';
 
 function App() {
-  console.log(process.env.REACT_APP_CLIENT_ID)
   const { loggedIn, loading } = useSpotifyAuth();
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [isToSModalOpen, setIsToSModalOpen] = useState(false);
+  const [isPPModalOpen, setIsPPModalOpen] = useState(false);
   if (loading) {
     return (
       <div className='h-screen w-screen bg-white flex align-middle items-center justify-center'>
@@ -36,8 +39,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
-        <Footer onAboutClick={() => setIsAboutModalOpen(true)} />
+        <Footer onAboutClick={() => setIsAboutModalOpen(true)} onToSClick={() => setIsToSModalOpen(true)} onPPClick={() => setIsPPModalOpen(true)} />
         <AboutModal isOpen={isAboutModalOpen} onClose={() => setIsAboutModalOpen(false)} />
+        <ToSModal isOpen={isToSModalOpen} onClose={() => setIsToSModalOpen(false)} />
+        <PPModal isOpen={isPPModalOpen} onClose={() => setIsPPModalOpen(false)} />
       </div>
     </Router> 
   );
