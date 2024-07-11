@@ -66,8 +66,8 @@ function ArtistsGrid() {
 
     if (!artistsData) {
         return (
-            <div className="flex justify-center items-center h-40 text-white text-xl font-inter font-bold">
-                <p>sorry, no artists available.</p>
+            <div className="flex justify-center items-center h-40 text-white text-md sm:text-xl font-inter font-bold">
+                <p>sorry, no top artists information available.</p>
             </div>
         );
     }
