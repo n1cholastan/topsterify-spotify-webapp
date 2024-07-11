@@ -76,7 +76,7 @@ export default function Login() {
             <div>
                 <img 
                     src={star} 
-                    alt="" 
+                    alt="Decorative Star" 
                     className="
                         lg:w-1/3 
                         spin 
@@ -87,7 +87,7 @@ export default function Login() {
                         w-3/4 
                         top-28 
                         left-12 
-                        md:top-24 
+                        md:top-40 
                         md:w-1/2
                     "
                 />
@@ -128,7 +128,7 @@ function LogInButton() {
               focus:animate-ping
           "
       >
-          Log In
+          log in
       </button>
   );
 }
