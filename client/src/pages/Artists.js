@@ -1,6 +1,6 @@
 import NavBar from "../components/NavBar";
 import SortingBar from "../components/SortingBar";
-import ph_album from "../assets/ph_album.jpeg";
+import placeholder from "../assets/ph_image.png";
 import { useSortingContext } from "../contexts/SortingContext";
 import LoadingWheel from "../components/LoadingWheel";
 import ScrollToTopButton from "../components/ScrollToTopButton";
@@ -86,7 +86,7 @@ function ArtistsGrid() {
             {artistsData.map((artist, i) => (
                 <ArtistCard
                     key={artist.id}
-                    album_cover={artist.images[0]?.url || ph_album}
+                    album_cover={artist.images[0]?.url || placeholder}
                     artist_name={artist.name}
                     index={i + 1}
                     artist_link={artist.external_urls.spotify}
