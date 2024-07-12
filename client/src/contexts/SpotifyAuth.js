@@ -57,7 +57,6 @@ export function SpotifyAuthProvider({ children }) {
 
       if (validToken.access_token) {
         try {
-          validToken.clearAccessToken()
           await getUserData();
           setLoggedIn(true);
         } catch (error) {

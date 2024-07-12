@@ -6,8 +6,11 @@ export default function ErrorModal({ isOpen, onClose, errorText }) {
         <div className="absolute inset-0 bg-black opacity-50" onClick={onClose}></div>
         
         <div className="relative bg-white p-6 rounded-3xl w-11/12 md:w-3/4 lg:w-1/3 z-10">
-          <h2 className="text-md md:text-xl text-black font-inter font-bold mb-2 text-center lowercase">
-            error: {errorText}
+          <h1 className="text-md md:text-xl text-black font-inter font-bold mb-2 text-center lowercase">
+            error:
+          </h1>
+          <h2 className="text-sm md:text-lg text-black font-inter font-semibold mb-8 ml-1 text-center lowercase">
+            {errorText}
           </h2>
           <p className="text-sm md:text-lg mb-4 text-black font-inter font-semibold text-center">
             please log back in
