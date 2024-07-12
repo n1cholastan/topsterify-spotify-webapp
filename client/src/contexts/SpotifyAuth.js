@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useRef } from "react";
+import { createContext, useContext, useState, useEffect, useRef, useCallback } from "react";
 import ErrorModal from "../components/ErrorModal";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
@@ -36,6 +36,8 @@ export function SpotifyAuthProvider({ children }) {
   const [errorText, setErrorText] = useState("");
   const effectRan = useRef(false);
   const isRefreshing = useRef(false);
+  const handleErrorCallback = useCallback(handleError, []);
+
 
   useEffect(() => {
     async function handleAuthorization() {
@@ -51,7 +53,7 @@ export function SpotifyAuthProvider({ children }) {
           const updatedUrl = url.search ? url.href : url.href.replace("?", "");
           window.history.replaceState({}, document.title, updatedUrl);
         } catch (error) {
-          handleError(error.message);
+          handleErrorCallback(error.message);
         }
       }
 
@@ -60,7 +62,7 @@ export function SpotifyAuthProvider({ children }) {
           await getUserData();
           setLoggedIn(true);
         } catch (error) {
-          handleError(error.message);
+          handleErrorCallback(error.message);
         }
       } else {
         setLoggedIn(false);
@@ -73,7 +75,7 @@ export function SpotifyAuthProvider({ children }) {
       handleAuthorization();
       effectRan.current = true;
     }
-  }, [loading]);
+  }, [loading, handleErrorCallback]);
 
   async function initiateSpotifyAuthorization() {
     const code_verifier = generateCodeVerifier();
