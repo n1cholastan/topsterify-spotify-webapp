@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useRef } from "react";
-import TimeOutModal from "../components/TimeOutModal";
+import ErrorModal from "../components/ErrorModal";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 const REDIRECT_URL = process.env.REACT_APP_REDIRECT_URL;
@@ -23,8 +23,8 @@ const validToken = {
     const expiry = new Date(now.getTime() + (expires_in * 1000));
     localStorage.setItem("expires", expiry);
   },
-};
 
+}
 
 const SpotifyAuthContext = createContext();
 
@@ -32,9 +32,11 @@ export function SpotifyAuthProvider({ children }) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorText, setErrorText] = useState("");
   const effectRan = useRef(false);
   const isRefreshing = useRef(false);
+
   useEffect(() => {
     async function handleAuthorization() {
       const urlParameters = new URLSearchParams(window.location.search);
@@ -49,28 +51,30 @@ export function SpotifyAuthProvider({ children }) {
           const updatedUrl = url.search ? url.href : url.href.replace("?", "");
           window.history.replaceState({}, document.title, updatedUrl);
         } catch (error) {
-          console.error("Error getting token:", error);
+          handleError(error.message);
         }
       }
 
       if (validToken.access_token) {
-        await getUserData();
-        setLoggedIn(true);
-      }
-      else {
+        try {
+          validToken.clearAccessToken()
+          await getUserData();
+          setLoggedIn(true);
+        } catch (error) {
+          handleError(error.message);
+        }
+      } else {
         setLoggedIn(false);
-        } 
+      }
 
-      setLoading(false); 
-    };
+      setLoading(false);
+    }
 
     if (loading && !effectRan.current) {
       handleAuthorization();
       effectRan.current = true;
     }
-
-    return
-   }, [loading]);
+  }, [loading]);
 
   async function initiateSpotifyAuthorization() {
     const code_verifier = generateCodeVerifier();
@@ -121,14 +125,14 @@ export function SpotifyAuthProvider({ children }) {
     });
     if (!response.ok) throw new Error("Failed to get token");
 
-    return response.json()
+    return response.json();
   }
 
   async function refreshToken() {
     if (isRefreshing.current) {
       return new Promise((resolve) => {
         const interval = setInterval(() => {
-          if (!isRefreshing.current){
+          if (!isRefreshing.current) {
             clearInterval(interval);
             resolve(validToken.access_token);
           }
@@ -154,9 +158,7 @@ export function SpotifyAuthProvider({ children }) {
       validToken.save(token);
       console.log("Token refreshed:", token);
     } catch (error) {
-      console.error("Refresh failed:", error);
-      SpotifyLogout();
-      setIsModalOpen(true);
+      handleError(error.message);
     } finally {
       isRefreshing.current = false;
     }
@@ -195,8 +197,7 @@ export function SpotifyAuthProvider({ children }) {
 
       return response.json();
     } catch (error) {
-      console.error("Error fetching top data:", error);
-      throw error;
+      handleError(error.message);
     }
   }
 
@@ -207,7 +208,14 @@ export function SpotifyAuthProvider({ children }) {
   function SpotifyLogout() {
     localStorage.clear();
     setLoggedIn(false);
-    setUserData(null); 
+    setUserData(null);
+  }
+
+  function handleError(message) {
+    console.error(message);
+    SpotifyLogout();
+    setErrorText(message);
+    setIsModalOpen(true);
   }
 
   return (
@@ -224,10 +232,11 @@ export function SpotifyAuthProvider({ children }) {
       }}
     >
       {children}
-      <TimeOutModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <ErrorModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} errorText={errorText} />
     </SpotifyAuthContext.Provider>
   );
 }
+
 export function useSpotifyAuth() {
   return useContext(SpotifyAuthContext);
 }

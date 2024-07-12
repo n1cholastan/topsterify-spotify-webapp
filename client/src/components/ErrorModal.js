@@ -1,4 +1,4 @@
-export default function TimeOutModal({ isOpen, onClose }) {
+export default function ErrorModal({ isOpen, onClose, errorText }) {
     if (!isOpen) return null;
   
     return (
@@ -6,10 +6,10 @@ export default function TimeOutModal({ isOpen, onClose }) {
         <div className="absolute inset-0 bg-black opacity-50" onClick={onClose}></div>
         
         <div className="relative bg-white p-6 rounded-3xl w-11/12 md:w-3/4 lg:w-1/3 z-10">
-          <h2 className="text-2xl text-black font-inter font-bold mb-2 text-center">
-            token refresh failed :(
+          <h2 className="text-md md:text-xl text-black font-inter font-bold mb-2 text-center lowercase">
+            error: {errorText}
           </h2>
-          <p className="text-sm md:text-xl mb-4 text-black font-inter font-semibold text-center">
+          <p className="text-sm md:text-lg mb-4 text-black font-inter font-semibold text-center">
             please log back in
           </p>
           <div className="flex gap-4 justify-center">
