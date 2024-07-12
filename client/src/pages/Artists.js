@@ -110,7 +110,7 @@ function ArtistCard({ album_cover, artist_name, index, artist_link }) {
                 ">
                     <img
                         src={album_cover}
-                        alt={`Artist photo of ${artist_name}`}
+                        alt={artist_name}
                         className="
                             w-full 
                             h-full 
