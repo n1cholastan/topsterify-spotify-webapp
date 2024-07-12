@@ -87,7 +87,7 @@ function SkinnyButton({ linkto, buttontext }) {
             <NavLink
                 to={linkto}
                 className={({ isActive }) =>
-                    `px-5 sm:px-10 md:px-6 py-4 rounded-full font-bold sm:text-xl md:text-lg lg:text-xl xl:text-2xl w-fit transition-colors duration-300 ease-in-out ${
+                    `px-5 sm:px-10 md:px-6 lg:px-10 py-4 rounded-full font-bold sm:text-xl md:text-lg lg:text-xl xl:text-2xl w-fit transition-colors duration-300 ease-in-out ${
                         isActive
                             ? "bg-black text-white"
                             : "bg-green text-black hover:bg-black hover:text-white"
